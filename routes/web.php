@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\ChangePasswordController;
+use App\Http\Controllers\Auth\EmailVerificationController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Auth::routes();
+
+Route::get('/email/verify', [EmailVerificationController::class, 'emailVerify'])->middleware('auth')->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verifyEmail'])->middleware(['auth', 'signed'])->name('verification.verify');
+Route::post('/email/resend-verification-notification', [EmailVerificationController::class, 'resendEmailVerificationLink'])->middleware(['auth', 'throttle:6,1'])->name('verification.resend');
+Route::get('/password/change', [ChangePasswordController::class, 'changePassword'])->name('change-password');
+Route::post('/password/update', [ChangePasswordController::class, 'updatePassword'])->name('update-password');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 });
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
