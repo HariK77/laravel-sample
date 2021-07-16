@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GalleryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,5 +28,9 @@ Route::post('/password/update', [ChangePasswordController::class, 'updatePasswor
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Resourceful Controllers
+    Route::resource('categories', CategoryController::class);
+    Route::resource('gallery', GalleryController::class);
 });
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
