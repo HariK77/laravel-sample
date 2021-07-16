@@ -4969,7 +4969,7 @@ textarea.form-control-lg {
     float: left;
     padding-right: .5rem;
     color: #74788d;
-    content: var(--bs-breadcrumb-divider, "https://Lara Codes.com/")
+    content: var(--bs-breadcrumb-divider, "/")
 }
 
 .breadcrumb-item.active {
