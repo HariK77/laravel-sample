@@ -10,7 +10,7 @@
                         <li class="menu-title">Menu</li>
 
                         <li>
-                            <a href="{{ url('/') }}" class="waves-effect">
+                            <a href="{{ route('dashboard') }}" class="waves-effect">
                                 <i class="bx bx-home-circle"></i>
                                 <span>Dashboard</span>
                             </a>
@@ -27,6 +27,12 @@
                                 <li><a href="{{ route('gallery.index') }}">Gallery</a></li>
                                 <li><a href="{{ route('gallery.create') }}">Add Image</a></li>
                             </ul>
+                        </li>
+                        <li>
+                            <a href="{{ route('excel') }}" class="waves-effect">
+                                <i class="bx bx-home-circle"></i>
+                                <span>Excel Operations</span>
+                            </a>
                         </li>
                     </ul>
                 </div>
