@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\GalleryController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,5 +33,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Resourceful Controllers
     Route::resource('categories', CategoryController::class);
     Route::resource('gallery', GalleryController::class);
+
+    // Excel Operations
+    Route::get('/excel', [ExcelController::class, 'index'])->name('excel');
+    Route::get('excel/export',[ExcelController::class, 'export'])->name('excel.export');
+    Route::get('excel/export-multiple-sheets',[ExcelController::class, 'exportMultipleSheets'])->name('excel.export-multiple-sheets');
+    Route::post('excel/import',[ExcelController::class, 'import'])->name('excel.import');
+    Route::post('excel/import-multiple-sheets',[ExcelController::class, 'importMultipleSheets'])->name('excel.import-multiple-sheets');
 });
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
