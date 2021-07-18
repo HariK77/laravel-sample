@@ -292,7 +292,7 @@
                                             <th>Description</th>
                                             <th>Featured</th>
                                             <th>Availability</th>
-                                            <th>Status</th>
+                                            <th>Status (Active)</th>
                                             <th>Created At</th>
                                         </tr>
                                     </thead>
@@ -305,9 +305,9 @@
                                             <td>{{ $product->price }}</td>
                                             <td>{{ $product->model_name }}</td>
                                             <td>{{ $product->description }}</td>
-                                            <td>{{ ($product->featured) ? 'Yes' : 'No' }}</td>
-                                            <td>{{ ($product->available) ? 'Available' : 'Not Available' }}</td>
-                                            <td>{{ ($product->active_flag) ? 'Active' : 'In Active' }}</td>
+                                            <td>{{ $product->featured }}</td>
+                                            <td>{{ $product->available }}</td>
+                                            <td>{{ $product->active_flag }}</td>
                                             <td>{{ dateFormat($product->created_at) }}</td>
                                         </tr>
                                         @endforeach

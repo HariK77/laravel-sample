@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\CategoryController;
@@ -40,5 +41,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('excel/export-multiple-sheets',[ExcelController::class, 'exportMultipleSheets'])->name('excel.export-multiple-sheets');
     Route::post('excel/import',[ExcelController::class, 'import'])->name('excel.import');
     Route::post('excel/import-multiple-sheets',[ExcelController::class, 'importMultipleSheets'])->name('excel.import-multiple-sheets');
+
+    // Ajax Operations
+    Route::get('/ajax', [AjaxController::class, 'index'])->name('ajax');
+    Route::get('/ajax/get-products', [AjaxController::class, 'getProducts'])->name('ajax.get-products');
+    Route::post('/ajax/store', [AjaxController::class, 'store'])->name('ajax.store');
+    Route::get('/ajax/{product}/edit', [AjaxController::class, 'edit'])->name('ajax.edit');
+
 });
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
