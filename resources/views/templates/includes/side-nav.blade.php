@@ -11,14 +11,14 @@
 
                         <li>
                             <a href="{{ route('dashboard') }}" class="waves-effect">
-                                <i class="bx bx-home-circle"></i>
+                                <i class="mdi mdi-home"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
 
                         <li>
                             <a href="javascript:void(0);" class="has-arrow waves-effect">
-                                <i class="bx bx-home-circle"></i>
+                                <i class="mdi mdi-clipboard-list"></i>
                                 <span>Res Controllers</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
@@ -30,8 +30,14 @@
                         </li>
                         <li>
                             <a href="{{ route('excel') }}" class="waves-effect">
-                                <i class="bx bx-home-circle"></i>
+                                <i class="mdi mdi-file-excel-outline"></i>
                                 <span>Excel Operations</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('ajax') }}" class="waves-effect">
+                                <i class="mdi mdi-swap-vertical"></i>
+                                <span>Ajax Operations</span>
                             </a>
                         </li>
                     </ul>

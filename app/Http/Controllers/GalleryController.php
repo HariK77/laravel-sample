@@ -52,13 +52,13 @@ class GalleryController extends Controller
             'file.max' => 'Image size should not be more than 2 MB',
         ];
 
-        $request_data = request()->validate($rules, $messages);
+        $requestData = request()->validate($rules, $messages);
 
-        unset($request_data['file']);
+        unset($requestData['file']);
 
-        $request_data['file_path'] = Helper::moveFile($request->file);
+        $requestData['file_path'] = Helper::moveFile($request->file);
 
-        Gallery::create($request_data);
+        Gallery::create($requestData);
 
         return redirect()->route('gallery.index')->with('success', 'Gallery Added successfully');
     }
@@ -108,15 +108,15 @@ class GalleryController extends Controller
             'file.max' => 'Image size should not be more than 2 MB',
         ];
 
-        $request_data = request()->validate($rules, $messages);
+        $requestData = request()->validate($rules, $messages);
 
         if ($request->hasFile('file')) {
 
-            $request_data['file_path'] = Helper::moveFileAndDeleteOld($request->file, $gallery->image);
+            $requestData['file_path'] = Helper::moveFileAndDeleteOld($request->file, $gallery->image);
 
         }
 
-        $gallery->update($request_data);
+        $gallery->update($requestData);
 
         return redirect()->route('gallery.index')->with('success', 'Gallery Image Updated successfully');
     }

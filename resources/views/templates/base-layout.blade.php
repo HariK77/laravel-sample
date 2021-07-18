@@ -52,9 +52,13 @@
     <script src="{{ asset('assets/js/simplebar.min.js') }}"></script>
     <script src="{{ asset('assets/js/waves.min.js') }}"></script>
 
-
     <!-- App js -->
     <script src="{{ asset('assets/js/app.js') }}"></script>
+
+    <script >
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+        const baseUrl = "{{ route('dashboard') }}";
+    </script>
 
     @yield('js')
 </body>

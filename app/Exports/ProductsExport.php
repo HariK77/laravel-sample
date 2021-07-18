@@ -36,9 +36,9 @@ class ProductsExport implements FromCollection, WithHeadings, ShouldAutoSize, Wi
             $product->model_name,
             $product->short_desc,
             $product->description,
-            $product->featured ? 'Yes' : 'No',
-            $product->available ? 'Available' : 'Not Available',
-            $product->active_flag ? 'Active' : 'Not Active',
+            $product->featured,
+            $product->available,
+            $product->active_flag,
             dateFormat($product->created_at),
             dateFormat($product->updated_at),
         ];
