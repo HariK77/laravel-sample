@@ -47,6 +47,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/ajax/get-products', [AjaxController::class, 'getProducts'])->name('ajax.get-products');
     Route::post('/ajax/store', [AjaxController::class, 'store'])->name('ajax.store');
     Route::get('/ajax/{product}/edit', [AjaxController::class, 'edit'])->name('ajax.edit');
+    Route::patch('/ajax/{product}', [AjaxController::class, 'update'])->name('ajax.update');
+    Route::delete('/ajax/{product}', [AjaxController::class, 'destroy'])->name('ajax.destory');
 
 });
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
