@@ -44,4 +44,9 @@ class Product extends Model
         return ($value) ? 'Yes' : 'No';
     }
 
+    public function getCreatedAtAttribute($value)
+    {
+        return dateFormat($value);
+    }
+
 }
