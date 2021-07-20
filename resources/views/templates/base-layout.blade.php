@@ -12,12 +12,18 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- base url -->
+    <meta name="base-url" content="{{ route('dashboard') }}">
 
     @yield('topCss')
+    <!-- Alertify -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/alertifyjs/css/alertify.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/alertifyjs/css/themes/bootstrap.min.css') }}">
     <!-- Bootstrap Css -->
     <link href="{{ asset('assets/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
     <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+
     <!-- App Css-->
     <link href="{{ asset('assets/css/app.css') }}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
@@ -51,14 +57,10 @@
     <script src="{{ asset('assets/js/metisMenu.min.js') }}"></script>
     <script src="{{ asset('assets/js/simplebar.min.js') }}"></script>
     <script src="{{ asset('assets/js/waves.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/alertifyjs/alertify.min.js') }}"></script>
 
     <!-- App js -->
     <script src="{{ asset('assets/js/app.js') }}"></script>
-
-    <script >
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-        const baseUrl = "{{ route('dashboard') }}";
-    </script>
 
     @yield('js')
 </body>

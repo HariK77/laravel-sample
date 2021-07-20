@@ -163,6 +163,9 @@
                 : s("#checkAll").prop("checked", !1);
         });
 
+})(jQuery);
+
+document.addEventListener('DOMContentLoaded', function() {
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     var forms = document.querySelectorAll(".needs-validation");
 
@@ -181,4 +184,23 @@
             false
         );
     });
-})(jQuery);
+
+});
+
+const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+const baseUrl = document.querySelector('meta[name="base-url"]').content;
+
+// Alertify Messages
+const showMessage = (message, type = '') => {
+    if (type === 'error') {
+        alertify.error(message);
+    } else if(type === 'warning') {
+        alertify.warning(message);
+    } else {
+        alertify.success(message);
+    }
+}
+
+const dateFormat = data => {
+
+}

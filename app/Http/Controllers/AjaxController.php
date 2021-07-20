@@ -16,7 +16,7 @@ class AjaxController extends Controller
 
     public function getProducts()
     {
-        $products = Product::limit(15)->latest()->get();
+        $products = Product::latest()->paginate(10);
         return response()->json($products, 200);
     }
 

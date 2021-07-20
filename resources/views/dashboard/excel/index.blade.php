@@ -308,7 +308,7 @@
                                             <td>{{ $product->featured }}</td>
                                             <td>{{ $product->available }}</td>
                                             <td>{{ $product->active_flag }}</td>
-                                            <td>{{ dateFormat($product->created_at) }}</td>
+                                            <td>{{ $product->created_at }}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>

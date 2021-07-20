@@ -56,7 +56,9 @@
                             </table>
                         </div>
                         <div class="text-center mt-2">
+                            <div id="pagination">
 
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -187,10 +189,10 @@
 
 @section('js')
 
-<script src="{{ asset('assets/js/axios.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/axios/axios.min.js') }}"></script>
 <script src="{{ asset('assets/js/axios-helper.js') }}"></script>
 <script>
-    const modal = document.getElementById('formModal')
+    const modal = document.getElementById('formModal');
     const modalInstance = new bootstrap.Modal(modal);
     const fields = ['id', 'product_name', 'brand', 'price', 'model_name', 'description', 'featured', 'available', 'active_flag', 'created_at', 'actions'];
     const form = document.getElementById('add-product-form');
@@ -198,22 +200,172 @@
     const submitBtn = form.querySelector('button[type="submit"]');
 
     document.addEventListener('DOMContentLoaded', function () {
-
-        // Get All Products
         getProducts()
-
     });
 
-    const getProducts = () => {
-        getRequest("{{ route('ajax.get-products') }}")
+    // Get All Products
+    const getProducts = (searchTerm = '') => {
+        getRequest(`${baseUrl}/ajax/get-products`)
         .then(res => {
             const appendTo = document.getElementById('products-data');
             appendTo.innerHTML = '';
-            createTrAndAppend(res.data, appendTo);
+            createTrAndAppend(res.data.data, appendTo);
+            handlePagination(res.data);
         })
         .catch(res => {
-            console.log('error', res);
+            showMessage('Something went wrong!', 'error')
         });
+    }
+
+    // Add Product
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        let isUpdate = document.getElementById('product-id') ? true : false;
+
+        submitBtn.innerText = 'Working ...';
+        submitBtn.disabled = true;
+
+        if (isUpdate) {
+            // Update Product
+            let productId = document.getElementById('product-id').value;
+            postRequest(`${baseUrl}/ajax/${productId}`, formData)
+            .then(res => {
+                submitBtn.disabled = false;
+                modalInstance.hide();
+                getProducts();
+                showMessage(res.data.message);
+            })
+            .catch(error => {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Update Product';
+                appendErrorMessages(error.response.data);
+                showMessage('validation Error', 'error');
+            });
+        } else {
+            // Add Product
+            postRequest(`${baseUrl}/ajax/store`, formData)
+            .then(res => {
+                submitBtn.disabled = false;
+                modalInstance.hide();
+                getProducts();
+                showMessage(res.data.message);
+            })
+            .catch(error => {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Add Product';
+                appendErrorMessages(error.response.data);
+                showMessage('validation Error', 'error');
+            });
+        }
+
+    })
+
+    const showProduct = id => {
+        alert(id)
+    }
+
+    // Get Product
+    const editProduct = id => {
+        const url = `${baseUrl}/ajax/${id}/edit`;
+        getRequest(url)
+        .then(res => {
+            appendDataToModal(res.data);
+            modalInstance.show();
+        })
+        .catch(res => {
+            showMessage('Something went wrong!', 'error');
+        });
+    }
+
+    // Delete Product
+    const deleteProduct = id => {
+        if(!confirm('Are you sure !')) return;
+
+        const url = `${baseUrl}/ajax/${id}`;
+        params = {
+            '_token': csrfToken,
+            '_method': 'DELETE'
+        }
+        postRequest(url, params)
+        .then(res => {
+            getProducts();
+            showMessage(res.data.message);
+        })
+        .catch(error => {
+            showMessage(error.response.data.message, 'error');
+        });
+    }
+
+    const appendDataToModal = product => {
+
+        modalTitle.innerText = 'Edit Product';
+        submitBtn.innerText = 'Update Product';
+
+        form.appendChild(createInputElement('hidden', '_method', 'PATCH', 'request-method'));
+        form.appendChild(createInputElement('hidden', 'product_id', product.id, 'product-id'));
+
+        for(let field of fields) {
+            if (field !== 'id' && field !== 'actions' && field !== 'created_at') {
+                let element = document.getElementById(field)
+                if (element.type === 'select-one') {
+                    for(let option of element.options) {
+                        if (option.value === product[field].toLowerCase()) {
+                            option.selected = true;
+                        }
+                    }
+                } else {
+                    element.value = product[field];
+                }
+            }
+        }
+    }
+
+    const resetModalForm = () => {
+        modalTitle.innerText = 'Add Product';
+        submitBtn.innerText = 'Add Product';
+
+        let requestMethod = document.getElementById("request-method")
+        if (document.contains(requestMethod)) {
+            requestMethod.remove();
+        }
+
+        let productId = document.getElementById("product-id")
+        if (document.contains(productId)) {
+            productId.remove();
+        }
+        clearErrorMessages();
+        form.reset();
+    }
+
+    modal.addEventListener('hidden.bs.modal', function (event) {
+        resetModalForm();
+    })
+
+    const createInputElement = (type, name, value, id) => {
+        const element = document.createElement('input');
+        element.type = type;
+        element.name = name;
+        element.value = value;
+        element.id = id;
+
+        return element;
+    }
+
+    const clearErrorMessages = () => {
+        Array.from(document.querySelectorAll('.form-select.is-invalid')).forEach((el) => el.classList.remove('is-invalid'));
+        Array.from(document.querySelectorAll('.form-control.is-invalid')).forEach((el) => el.classList.remove('is-invalid'));
+        return;
+    }
+
+    const appendErrorMessages = errors => {
+        for(let error in errors) {
+            let element = document.getElementById(error);
+            element.classList.add('is-invalid');
+            element.nextElementSibling.children[0].innerHTML = errors[error][0];
+        }
+        return;
     }
 
     const createTrAndAppend = (data, element) => {
@@ -292,150 +444,9 @@
         return td
     }
 
-    // Add Product
-
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(form);
-
-        let isUpdate = document.getElementById('product-id') ? true : false;
-
-        submitBtn.innerText = 'Working ...';
-        submitBtn.disabled = true;
-
-        if (isUpdate) {
-            // Update Product
-            let productId = document.getElementById('product-id').value;
-            postRequest(`${baseUrl}/ajax/${productId}`, formData)
-            .then(res => {
-                Array.from(document.querySelectorAll('.form-select.is-invalid')).forEach((el) => el.classList.remove('is-invalid'));
-                Array.from(document.querySelectorAll('.form-control.is-invalid')).forEach((el) => el.classList.remove('is-invalid'));
-                resetModalForm();
-                submitBtn.disabled = false;
-                modalInstance.hide();
-                getProducts();
-            })
-            .catch(error => {
-                const errors = error.response.data;
-                for(let error in errors) {
-                    let element = document.getElementById(error);
-                    element.classList.add('is-invalid');
-                    element.nextElementSibling.children[0].innerHTML = errors[error][0];
-                }
-            });
-        } else {
-            // Add Product
-            postRequest(`${baseUrl}/ajax/store`, formData)
-            .then(res => {
-                Array.from(document.querySelectorAll('.form-select.is-invalid')).forEach((el) => el.classList.remove('is-invalid'));
-                Array.from(document.querySelectorAll('.form-control.is-invalid')).forEach((el) => el.classList.remove('is-invalid'));
-                form.reset();
-                submitBtn.disabled = false;
-                modalInstance.hide();
-                getProducts();
-            })
-            .catch(error => {
-                const errors = error.response.data;
-
-                for(let error in errors) {
-                    let element = document.getElementById(error);
-                    element.classList.add('is-invalid');
-                    element.nextElementSibling.children[0].innerHTML = errors[error][0];
-                }
-            });
-        }
-
-    })
-
-    const showProduct = id => {
-        alert(id)
+    const handlePagination = result => {
+        console.log(result);
     }
-
-    const editProduct = id => {
-        // Get Product
-        const url = `${baseUrl}/ajax/${id}/edit`;
-        // console.log(url);
-        getRequest(url)
-        .then(res => {
-            // console.log(res.data);
-            appendDataToModal(res.data);
-            modalInstance.show();
-        })
-        .catch(res => {
-            console.log('error', res);
-        });
-    }
-
-    const deleteProduct = id => {
-
-        const url = `${baseUrl}/ajax/${id}`;
-        params = {
-            '_token': csrfToken,
-            '_method': 'DELETE'
-        }
-        postRequest(url, params)
-        .then(res => {
-            getProducts();
-        })
-        .catch(res => {
-        });
-    }
-
-    const appendDataToModal = product => {
-
-        modalTitle.innerText = 'Edit Product';
-        submitBtn.innerText = 'Update Product';
-
-        const requestMethod = document.createElement('input');
-        requestMethod.type = 'hidden';
-        requestMethod.name = '_method';
-        requestMethod.value = 'PATCH';
-        requestMethod.id = 'request-method';
-        form.appendChild(requestMethod);
-
-        const productId = document.createElement('input');
-        productId.type = 'hidden';
-        productId.name = 'product_id';
-        productId.value = product.id;
-        productId.id = 'product-id';
-        form.appendChild(productId);
-
-        for(let field of fields) {
-            if (field !== 'id' && field !== 'actions' && field !== 'created_at') {
-                let element = document.getElementById(field)
-                if (element.type === 'select-one') {
-                    for(let option of element.options) {
-                        if (option.value === product[field].toLowerCase()) {
-                            option.selected = true;
-                        }
-                    }
-                } else {
-                    element.value = product[field];
-                }
-            }
-        }
-    }
-
-    const resetModalForm = () => {
-        modalTitle.innerText = 'Add Product';
-        submitBtn.innerText = 'Add Product';
-
-        let requestMethod = document.getElementById("request-method")
-        if (document.contains(requestMethod)) {
-            requestMethod.remove();
-        }
-
-        let productId = document.getElementById("product-id")
-        if (document.contains(productId)) {
-            productId.remove();
-        }
-        form.reset();
-    }
-
-    modal.addEventListener('hidden.bs.modal', function (event) {
-        resetModalForm();
-    })
 
 </script>
 @endsection
