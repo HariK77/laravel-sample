@@ -29,7 +29,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <h4 class="card-title">Products</h4>
+                            <h4 class="card-title">Products (Pagination is under process)</h4>
                             <button type="button" class="btn btn-primary waves-effect waves-light"
                                 data-bs-toggle="modal" data-bs-target=".modal">Add Product</button>
                         </div>
@@ -43,7 +43,7 @@
                                         <th>Brand</th>
                                         <th>Price</th>
                                         <th>Model Name</th>
-                                        <th>Description</th>
+                                        <th width="10%">Description</th>
                                         <th>Featured</th>
                                         <th>Availability</th>
                                         <th>Status (Active)</th>
@@ -402,7 +402,7 @@
         })(value);
 
         const showLinkIcon = document.createElement('i');
-        showLinkIcon.classList.add('fas', 'fas-eye');
+        showLinkIcon.classList.add('fas', 'fa-eye');
         // showLinkIcon.setAttribute('aria-hidden', true);
 
         showLink.appendChild(showLinkIcon)
@@ -419,7 +419,7 @@
         })(value);
 
         let editLinkIcon = document.createElement('i');
-        editLinkIcon.classList.add('fas', 'fas-edit');
+        editLinkIcon.classList.add('fas', 'fa-edit');
         // editLinkIcon.setAttribute('aria-hidden', true);
 
         editLink.appendChild(editLinkIcon)
@@ -435,7 +435,7 @@
         })(value);
 
         let deleteLinkIcon = document.createElement('i');
-        deleteLinkIcon.classList.add('fas', 'fas-trash');
+        deleteLinkIcon.classList.add('fas', 'fa-trash');
         // deleteLinkIcon.setAttribute('aria-hidden', true);
 
         deleteLink.appendChild(deleteLinkIcon);
@@ -446,6 +446,63 @@
 
     const handlePagination = result => {
         console.log(result);
+
+        let paginationTemplate = `<nav>`;
+        paginationTemplate += `<ul class="pagination">`;
+
+
+        let links = '';
+
+        for(link of result.links) {
+
+            let label = link.label;
+
+            if (label.includes('Previous')) {
+                if (result.prev_page_url) {
+                    links += `
+                        <li class="page-item">
+                            <a class="page-link" href="${result.prev_page_url}" rel="prev" aria-label="« Previous">›</a>
+                        </li>`;
+                } else {
+                    links += `
+                        <li class="page-item disabled" aria-disabled="true" aria-label="« Previous">
+                            <span class="page-link" aria-hidden="true">‹</span>
+                        </li>`;
+                }
+            } else if (label.includes('Next')) {
+                if (result.next_page_url) {
+                    links += `
+                        <li class="page-item">
+                            <a class="page-link" href="${result.next_page_url}" rel="next" aria-label="Next »">›</a>
+                        </li>`;
+                } else {
+                    links += `
+                        <li class="page-item disabled" aria-disabled="true" aria-label="Next »">
+                            <span class="page-link" aria-hidden="true">‹</span>
+                        </li>`;
+                }
+            } else {
+                if (link.active) {
+                    links += `<li class="page-item active" aria-current="page"><span class="page-link">${link.label}</span></li>`;
+                } else {
+                    links += `<li class="page-item"><a class="page-link" href="${link.url}">${link.label}</a></li>`;
+                }
+            }
+
+        }
+
+        paginationTemplate += links;
+
+
+        paginationTemplate += '</ul>';
+        paginationTemplate += '</nav>';
+
+        let paginationElement = document.getElementById('pagination');
+
+        paginationElement.insertAdjacentHTML('beforeend', paginationTemplate);
+
+        return true;
+
     }
 
 </script>

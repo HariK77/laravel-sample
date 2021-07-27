@@ -7,6 +7,9 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,7 +31,7 @@ Route::post('/email/resend-verification-notification', [EmailVerificationControl
 Route::get('/password/change', [ChangePasswordController::class, 'changePassword'])->name('change-password');
 Route::post('/password/update', [ChangePasswordController::class, 'updatePassword'])->name('update-password');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'clearance'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     // Resourceful Controllers
@@ -49,6 +52,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/ajax/{product}/edit', [AjaxController::class, 'edit'])->name('ajax.edit');
     Route::patch('/ajax/{product}', [AjaxController::class, 'update'])->name('ajax.update');
     Route::delete('/ajax/{product}', [AjaxController::class, 'destroy'])->name('ajax.destory');
+
+    // Access Management
+    Route::resource('users', UserController::class);
+    Route::resource('roles', RoleController::class);
+    Route::resource('permissions', PermissionController::class);
 
 });
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
