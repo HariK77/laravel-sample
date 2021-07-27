@@ -1,6 +1,6 @@
 ## About Laravel Codes
 
-This is [Laravel](https://laravel.com) Application, in which I try to implement different features ex: handling excel files, ajax, access management using plugins in backend. For front end I used bootstrap 5 and used different javascript plugins.
+This is [Laravel](https://laravel.com) Application, in which I try to implement different features ex: handling excel files, ajax, access management using plugins in backend. For front end I used bootstrap 5 and different javascript plugins.
 
 ## Implemented Features
 - Implemented resourceful controllers(file uploads).
