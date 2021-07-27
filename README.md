@@ -6,6 +6,6 @@ This is [Laravel](https://laravel.com) Application, in which I try to implement 
 - Implemented resourceful controllers(file uploads).
 - Implemented database seeding.
 - Implemented crud operations using Ajax(axios).
-- Implemented export and import excel files using [Laravel Excel](https://laravel-excel.com/).
+- Implemented export and import of excel files using [Laravel Excel](https://laravel-excel.com/).
 - Now Working on [Laravel Permission](https://spatie.be/docs/laravel-permission/v4/introduction)
 
