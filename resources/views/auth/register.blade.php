@@ -50,8 +50,8 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="userpassword" class="form-label">Password</label>
-                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="userpassword" name="password" placeholder="Enter password" autocomplete="new-password" required>
+                        <label for="user-password" class="form-label">Password</label>
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="user-password" name="password" placeholder="Enter password" autocomplete="new-password" required>
                         @error('password')
                         <div class="invalid-feedback">
                             <strong>{{ $message }}</strong>
@@ -60,8 +60,8 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="userpassword" class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="userpassword" name="password_confirmation" placeholder="Enter same password as above" autocomplete="new-password" required>
+                        <label for="user-password-confirm" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="user-password-confirm" name="password_confirmation" placeholder="Enter same password as above" autocomplete="new-password" required>
                         @error('password_confirmation')
                         <div class="invalid-feedback">
                             <strong>{{ $message }}</strong>

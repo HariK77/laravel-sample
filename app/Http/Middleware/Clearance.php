@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class Clearance
 {
@@ -16,159 +17,71 @@ class Clearance
      */
     public function handle(Request $request, Closure $next)
     {
+        $routes = Route::getRoutes();
+
+        $grants = array(
+            // User Management Routes
+            array('url' => 'users', 'method' => 'GET', 'permission' => 'See All Users'),
+            array('url' => 'users/create', 'method' => 'GET', 'permission' => 'Create User'),
+            // array('url' => 'users', 'method' => 'POST', 'permission' => 'Add User'),
+            array('url' => 'users/*', 'method' => 'GET', 'permission' => 'See User'),
+            array('url' => 'users/*/edit', 'method' => 'GET', 'permission' => 'Edit User'),
+            // array('url' => 'users/*', 'method' => 'PATCH', 'permission' => 'Update User'),
+            array('url' => 'users/*', 'method' => 'DELETE', 'permission' => 'Delete User'),
+
+            // Role Management Routes
+            array('url' => 'roles', 'method' => 'GET', 'permission' => 'See All Roles'),
+            array('url' => 'roles/create', 'method' => 'GET', 'permission' => 'Create Role'),
+            array('url' => 'roles/*', 'method' => 'GET', 'permission' => 'See Role'),
+            array('url' => 'roles/*/edit', 'method' => 'GET', 'permission' => 'Edit Role'),
+            array('url' => 'roles/*', 'method' => 'DELETE', 'permission' => 'Delete Role'),
+
+            // Permission Management Routes
+            array('url' => 'permissions', 'method' => 'GET', 'permission' => 'See All Permissions'),
+            array('url' => 'permissions/create', 'method' => 'GET', 'permission' => 'Create Permission'),
+            array('url' => 'permissions/*', 'method' => 'GET', 'permission' => 'See Permission'),
+            array('url' => 'permissions/*/edit', 'method' => 'GET', 'permission' => 'Edit Permission'),
+            array('url' => 'permissions/*', 'method' => 'DELETE', 'permission' => 'Delete Permission'),
+
+            // Category Routes
+            array('url' => 'categories', 'method' => 'GET', 'permission' => 'See All Categories'),
+            array('url' => 'categories/create', 'method' => 'GET', 'permission' => 'Create Category'),
+            array('url' => 'categories/*', 'method' => 'GET', 'permission' => 'See Category'),
+            array('url' => 'categories/*/edit', 'method' => 'GET', 'permission' => 'Edit Category'),
+            array('url' => 'categories/*', 'method' => 'DELETE', 'permission' => 'Delete Category'),
+
+            // Category Routes
+            array('url' => 'gallery', 'method' => 'GET', 'permission' => 'See All Galleries'),
+            array('url' => 'gallery/create', 'method' => 'GET', 'permission' => 'Create Gallery'),
+            array('url' => 'gallery/*', 'method' => 'GET', 'permission' => 'See Gallery'),
+            array('url' => 'gallery/*/edit', 'method' => 'GET', 'permission' => 'Edit Gallery'),
+            array('url' => 'gallery/*', 'method' => 'DELETE', 'permission' => 'Delete Gallery'),
+
+            // Excel Routes
+            array('url' => 'excel', 'method' => 'GET', 'permission' => 'See Excel Operations'),
+
+            // Ajax Routes
+            array('url' => 'ajax', 'method' => 'GET', 'permission' => 'See Ajax Operations'),
+
+        );
+
+        // Super Admin
         if (auth()->user()->isAdmin()) {
             return $next($request);
         }
 
-        /**
-         * Managing User Routes
-         */
+        foreach ($grants as $key => $grant) {
 
-        if ($request->is('admin/users'))
-        {
-            if ($request->isMethod('GET')  && auth()->user()->hasPermissionTo('See All Users')) {
-                return $next($request);
-            } elseif ($request->isMethod('POST')  && auth()->user()->hasPermissionTo('Save User')) {
-                return $next($request);
-            } else {
-                abort('401');
-            }
-        }
-
-        if ($request->is('admin/users/create'))
-        {
-            if ($request->isMethod('GET')  && auth()->user()->hasPermissionTo('Create User')) {
-                return $next($request);
-            } else {
-                abort('401');
-            }
-        }
-
-        if ($request->is('admin/users/*/edit')) {
-            if ($request->isMethod('GET')  && auth()->user()->hasPermissionTo('Edit User')) {
-                return $next($request);
-            } else {
-                abort('401');
-            }
-        }
-
-        if ($request->is('admin/users/*')) {
-            if ($request->isMethod('DELETE')  && auth()->user()->hasPermissionTo('Delete User')) {
-                return $next($request);
-            } elseif ($request->isMethod('PATCH')  && auth()->user()->hasPermissionTo('Update User')) {
-                return $next($request);
-            } elseif ($request->isMethod('GET')  && auth()->user()->hasPermissionTo('See User')) {
-                return $next($request);
-            } else {
-                abort('401');
-            }
-        }
-
-        /**
-         * Manage Roles
-         */
-
-        if ($request->is('admin/roles'))
-        {
-            if ($request->isMethod('GET')  && auth()->user()->hasPermissionTo('See All Roles')) {
-                return $next($request);
-            } elseif ($request->isMethod('POST')  && auth()->user()->hasPermissionTo('Save Role')) {
-                return $next($request);
-            } else {
-                abort('401');
-            }
-        }
-
-        if ($request->is('admin/roles/create'))
-        {
-            if ($request->isMethod('GET')  && auth()->user()->hasPermissionTo('Create Role')) {
-                return $next($request);
-            } else {
-                abort('401');
-            }
-        }
-
-        if ($request->is('admin/roles/*/edit')) {
-            if ($request->isMethod('GET')  && auth()->user()->hasPermissionTo('Edit Role')) {
-                return $next($request);
-            } else {
-                abort('401');
-            }
-        }
-
-        if ($request->is('admin/roles/*')) {
-            if ($request->isMethod('DELETE')  && auth()->user()->hasPermissionTo('Delete Role')) {
-                return $next($request);
-            } elseif ($request->isMethod('PATCH')  && auth()->user()->hasPermissionTo('Update Role')) {
-                return $next($request);
-            } elseif ($request->isMethod('GET')  && auth()->user()->hasPermissionTo('See Role')) {
-                return $next($request);
-            } else {
-                abort('401');
-            }
-        }
-
-        /**
-         * Manage Permission Routes
-         */
-
-        if ($request->is('admin/permissions'))
-        {
-            if ($request->isMethod('GET')  && auth()->user()->hasPermissionTo('See All Permissions')) {
-                return $next($request);
-            } elseif ($request->isMethod('POST')  && auth()->user()->hasPermissionTo('Save Permission')) {
-                return $next($request);
-            } else {
-                abort('401');
-            }
-        }
-
-        if ($request->is('admin/permissions/create'))
-        {
-            if ($request->isMethod('GET')  && auth()->user()->hasPermissionTo('Create Permission')) {
-                return $next($request);
-            } else {
-                abort('401');
-            }
-        }
-
-        if ($request->is('admin/permissions/*/edit')) {
-            if ($request->isMethod('GET')  && auth()->user()->hasPermissionTo('Edit Permission')) {
-                return $next($request);
-            } else {
-                abort('401');
-            }
-        }
-
-        if ($request->is('admin/permissions/*')) {
-            if ($request->isMethod('DELETE')  && auth()->user()->hasPermissionTo('Delete Permission')) {
-                return $next($request);
-            } elseif ($request->isMethod('PATCH')  && auth()->user()->hasPermissionTo('Update Permission')) {
-                return $next($request);
-            } elseif ($request->isMethod('GET')  && auth()->user()->hasPermissionTo('See Permission')) {
-                return $next($request);
-            } else {
-                abort('401');
+            if ($request->is($grant['url']))
+            {
+                if ($request->isMethod($grant['method'])  && auth()->user()->hasPermissionTo($grant['permission'])) {
+                    return $next($request);
+                } else {
+                    abort('401');
+                }
             }
         }
 
         return $next($request);
     }
 }
-
-// [
-//     ['name' => 'See All Roles', 'guard_name' => 'web'],
-//     ['name' => 'Create Role', 'guard_name' => 'web'],
-//     ['name' => 'Edit Role', 'guard_name' => 'web'],
-//     ['name' => 'Delete Role', 'guard_name' => 'web'],
-//     ['name' => 'Save Role', 'guard_name' => 'web'],
-//     ['name' => 'Update Role', 'guard_name' => 'web'],
-//     ['name' => 'See Role', 'guard_name' => 'web'],
-//     ['name' => 'See All Permissions', 'guard_name' => 'web'],
-//     ['name' => 'Create Permission', 'guard_name' => 'web'],
-//     ['name' => 'Edit Permission', 'guard_name' => 'web'],
-//     ['name' => 'Delete Permission', 'guard_name' => 'web'],
-//     ['name' => 'Save Permission', 'guard_name' => 'web'],
-//     ['name' => 'Update Permission', 'guard_name' => 'web'],
-//     ['name' => 'See Permission', 'guard_name' => 'web'],
-// ]
