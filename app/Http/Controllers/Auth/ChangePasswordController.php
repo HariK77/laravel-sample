@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -42,7 +41,7 @@ class ChangePasswordController extends Controller
             'password_confirmation' => 'required|same:new_password'
         ]);
 
-        $user->password = Hash::make($request->new_password);
+        $user->password = $request->new_password;
         $user->save();
 
         return redirect()->back()->with('success', 'Password changed successfully!');
