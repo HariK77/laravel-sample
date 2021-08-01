@@ -61,6 +61,7 @@ Route::middleware(['auth', 'verified', 'clearance'])->group(function () {
 
     // Profile Controller
     Route::resource('profile', ProfileController::class);
+    // Route::
 
 });
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
