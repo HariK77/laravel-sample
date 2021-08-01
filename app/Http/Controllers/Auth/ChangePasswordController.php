@@ -13,11 +13,11 @@ class ChangePasswordController extends Controller
         $this->middleware('auth');
     }
 
-    public function changePassword() {
+    // public function changePassword() {
 
-        return view('auth.passwords.change');
+    //     return view('auth.passwords.change');
 
-    }
+    // }
 
     public function updatePassword(Request $request) {
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -14,7 +15,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        //
+        return view('dashboard.profile.index');
     }
 
     /**
@@ -69,7 +70,33 @@ class ProfileController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $user = User::findOrFail($request->id);
+
+        $rules = array(
+            'name' => 'required|string|max:50',
+            'email' => 'required|string|email|max:100|unique:users,email,'.$user->id,
+        );
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+
+            $data =  $validator->errors()->toArray();
+            return response()->json($data, 422);
+        }
+
+        $requestData = $request->all();
+
+        unset($requestData['_token']);
+        unset($requestData['_method']);
+
+        $user->update($requestData);
+
+        $data = array(
+            'message' => "Details Updated Successfully !!"
+        );
+
+        return response()->json($data, 200);
     }
 
     /**
