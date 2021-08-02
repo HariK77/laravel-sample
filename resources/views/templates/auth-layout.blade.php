@@ -27,7 +27,7 @@
     <!-- App Css-->
     <link href="{{ asset('assets/css/app.css') }}" rel="stylesheet" type="text/css" />
     {{-- Custom css --}}
-    <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/custom.css').'?'.time() }}" rel="stylesheet" type="text/css" />
 
     @yield('bottomCss')
 </head>
@@ -51,7 +51,7 @@
     <script src="{{ asset('assets/plugins/alertifyjs/alertify.min.js') }}"></script>
 
     <!-- App js -->
-    <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ asset('assets/js/app.js').'?'.time() }}"></script>
     @yield('js')
 </body>
 
