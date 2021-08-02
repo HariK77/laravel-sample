@@ -48,9 +48,9 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="userpassword" class="form-label">Password</label>
+                        <label for="new-password" class="form-label">Password</label>
                         <input type="password" class="form-control @error('password') is-invalid @enderror"
-                            id="userpassword" name="password" placeholder="Enter password" autocomplete="new-password"
+                            id="new-password" name="password" placeholder="Enter password" autocomplete="new-password"
                             required>
                         @error('password')
                         <div class="invalid-feedback">
@@ -60,9 +60,9 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="userpassword" class="form-label">Confirm Password</label>
+                        <label for="confirm-password" class="form-label">Confirm Password</label>
                         <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror"
-                            id="userpassword" name="password_confirmation" placeholder="Enter same password as above"
+                            id="confirm-password" name="password_confirmation" placeholder="Enter same password as above"
                             autocomplete="new-password" required>
                         @error('password_confirmation')
                         <div class="invalid-feedback">

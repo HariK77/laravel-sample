@@ -185,6 +185,17 @@ document.addEventListener('DOMContentLoaded', function() {
         );
     });
 
+    // Alerts initialization
+    const alertList = document.querySelectorAll('.alert');
+
+    alertList.forEach(function (alert) {
+        let element = new bootstrap.Alert(alert);
+
+        setTimeout(function() {
+            element.close();
+        },5000)
+    })
+
 });
 
 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
@@ -201,6 +212,4 @@ const showMessage = (message, type = '') => {
     }
 }
 
-const dateFormat = data => {
 
-}

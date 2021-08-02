@@ -61,7 +61,8 @@ Route::middleware(['auth', 'verified', 'clearance'])->group(function () {
 
     // Profile Controller
     Route::resource('profile', ProfileController::class);
-    // Route::
+    // Route::get('/password/change', [ChangePasswordController::class, 'changePassword'])->name('change-password');
+    Route::post('/password/update', [ChangePasswordController::class, 'updatePassword'])->name('update-password');
 
 });
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

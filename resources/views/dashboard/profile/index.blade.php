@@ -20,6 +20,9 @@
 
                 </div>
             </div>
+            <div class="col-12">
+                @include('templates.includes.messages')
+            </div>
         </div>
         <!-- end page title -->
 
@@ -32,6 +35,8 @@
                             <div class="ms-auto">
                                 <button class="btn btn-outline-primary btn-rounded" id="edit-profile"><i
                                         class="fas fa-edit"></i></button>
+                                <button class="btn btn-outline-info btn-rounded d-none" id="cancel"><i
+                                    class="fas fa-window-close"></i></button>
                                 <button class="btn btn-outline-success btn-rounded d-none" id="save-profile"><i
                                         class="fas fa-save"></i></button>
                             </div>
@@ -87,39 +92,46 @@
                             <h4 class="card-title align-self-end">Change Password</h4>
                         </div>
                         <hr>
-                        <div class="mb-3">
-                            <label for="current_password" class="form-label">Current Password</label>
-                            <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                id="current_password" name="current_password" placeholder="Enter current password" required>
-                            @error('current_password')
-                            <div class="invalid-feedback">
-                                <strong>{{ $message }}</strong>
+                        <form method="POST" action="{{ route('update-password') }}" novalidate>
+                            @csrf
+                            <div class="mb-3">
+                                <label for="current_password" class="form-label">Current Password</label>
+                                <input type="password" class="form-control @error('current_password') is-invalid @enderror"
+                                    id="current_password" name="current_password" placeholder="Enter current password"
+                                    required>
+                                @error('current_password')
+                                <div class="invalid-feedback">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                                @enderror
                             </div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="userpassword" class="form-label">New Password</label>
-                            <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                id="userpassword" name="new_password" placeholder="Enter password" autocomplete="new-password"
-                                required>
-                            @error('password')
-                            <div class="invalid-feedback">
-                                <strong>{{ $message }}</strong>
+                            <div class="mb-3">
+                                <label for="user-password" class="form-label">New Password</label>
+                                <input type="password" class="form-control @error('new_password') is-invalid @enderror"
+                                    id="user-password" name="new_password" placeholder="Enter password"
+                                    autocomplete="new-password" required>
+                                @error('new_password')
+                                <div class="invalid-feedback">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                                @enderror
                             </div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="userpassword" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror"
-                                id="userpassword" name="password_confirmation" placeholder="Enter same password as above"
-                                autocomplete="new-password" required>
-                            @error('password_confirmation')
-                            <div class="invalid-feedback">
-                                <strong>{{ $message }}</strong>
+                            <div class="mb-3">
+                                <label for="confirm-password" class="form-label">Confirm Password</label>
+                                <input type="password"
+                                    class="form-control @error('password_confirmation') is-invalid @enderror"
+                                    id="confirm-password" name="password_confirmation"
+                                    placeholder="Enter same password as above" autocomplete="new-password" required>
+                                @error('password_confirmation')
+                                <div class="invalid-feedback">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                                @enderror
                             </div>
-                            @enderror
-                        </div>
+                            <div>
+                                <button class="btn btn-primary" type="submit">Add</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -138,6 +150,7 @@
 <script>
     const editBtn = document.querySelector('#edit-profile');
     const saveBtn = document.querySelector('#save-profile');
+    const cancelBtn = document.querySelector('#cancel')
 
     const showInfoSections = document.querySelectorAll('.show-info');
     const showInputSections = document.querySelectorAll('.show-input-fields');
@@ -151,10 +164,18 @@
 
         editBtn.classList.add('d-none');
         saveBtn.classList.remove('d-none');
+        cancelBtn.classList.remove('d-none');
 
         showAndHide('edit')
 
     });
+
+    cancelBtn.addEventListener('click', () => {
+        showAndHide('cancel');
+        editBtn.classList.remove('d-none');
+        saveBtn.classList.add('d-none');
+        cancelBtn.classList.add('d-none');
+    })
 
     saveBtn.addEventListener('click', () => {
         clearErrorMessages();
@@ -176,6 +197,7 @@
 
             editBtn.classList.remove('d-none');
             saveBtn.classList.add('d-none');
+            cancelBtn.classList.add('d-none');
 
             showAndHide('save');
 
