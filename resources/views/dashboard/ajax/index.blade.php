@@ -74,7 +74,7 @@
 {{-- MOdals --}}
 
 <!--  Modal content for the above example -->
-<div id="formModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
+<div id="create-update-modal-form" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <form id="add-product-form" action="{{ route('ajax.store') }}" method="POST">
@@ -192,7 +192,7 @@
 <script src="{{ asset('assets/plugins/axios/axios.min.js') }}"></script>
 <script src="{{ asset('assets/js/axios-helper.js') }}"></script>
 <script>
-    const modal = document.getElementById('formModal');
+    const modal = document.getElementById('create-update-modal-form');
     const modalInstance = new bootstrap.Modal(modal);
     const fields = ['id', 'product_name', 'brand', 'price', 'model_name', 'description', 'featured', 'available', 'active_flag', 'created_at', 'actions'];
     const form = document.getElementById('add-product-form');
@@ -354,18 +354,21 @@
     }
 
     const clearErrorMessages = () => {
-        Array.from(document.querySelectorAll('.form-select.is-invalid')).forEach((el) => el.classList.remove('is-invalid'));
-        Array.from(document.querySelectorAll('.form-control.is-invalid')).forEach((el) => el.classList.remove('is-invalid'));
-        return;
+        Array.from(document.querySelectorAll('.is-invalid')).forEach((el) => el.classList.remove('is-invalid'));
+        // Array.from(document.querySelectorAll('.form-control.is-invalid')).forEach((el) => el.classList.remove('is-invalid'));
     }
 
     const appendErrorMessages = errors => {
+
         for(let error in errors) {
             let element = document.getElementById(error);
             element.classList.add('is-invalid');
             element.nextElementSibling.children[0].innerHTML = errors[error][0];
         }
-        return;
+
+        Array.from(document.querySelectorAll('.is-invalid')).forEach(errorElement => {
+            errorElement.addEventListener('change', e =>  e.target.classList.remove('is-invalid'));
+        })
     }
 
     const createTrAndAppend = (data, element) => {

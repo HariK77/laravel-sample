@@ -212,4 +212,8 @@ const showMessage = (message, type = '') => {
     }
 }
 
+Array.from(document.querySelectorAll('.is-invalid')).forEach(errorElement => {
+    errorElement.addEventListener('change', e =>  e.target.classList.remove('is-invalid'));
+})
+
 
