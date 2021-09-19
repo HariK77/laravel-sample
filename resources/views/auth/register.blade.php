@@ -9,7 +9,7 @@
                 <div class="col-7">
                     <div class="text-primary p-4">
                         <h5 class="text-primary">Free Register</h5>
-                        <p>Get your free Lara Codes account now.</p>
+                        <p>Get your free Laravel Sample account now.</p>
                     </div>
                 </div>
             </div>
@@ -96,7 +96,7 @@
                     </div>
 
                     <div class="mt-4 text-center">
-                        <p class="mb-0">By registering you agree to the Lara Codes <a href="#" class="text-primary">Terms of Use</a></p>
+                        <p class="mb-0">By registering you agree to the Laravel Sample <a href="#" class="text-primary">Terms of Use</a></p>
                     </div>
                 </form>
             </div>
@@ -107,7 +107,7 @@
 
         <div>
             <p>Already have an account ? <a href="{{ route('login') }}" class="fw-medium text-primary"> Login</a> </p>
-            <p>© <script>document.write(new Date().getFullYear())</script> Lara Codes. Crafted with <i class="mdi mdi-heart text-danger"></i> by Lara Codes</p>
+            <p>© <script>document.write(new Date().getFullYear())</script> Laravel Sample. Crafted with <i class="mdi mdi-heart text-danger"></i> by Laravel Sample</p>
         </div>
     </div>
 
