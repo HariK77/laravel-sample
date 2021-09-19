@@ -12,7 +12,7 @@
                 <div class="col-7">
                     <div class="text-primary p-4">
                         <h5 class="text-primary"> Set New Password</h5>
-                        {{-- <p>Re-Password with Lara Codes.</p> --}}
+                        {{-- <p>Re-Password with Laravel Sample.</p> --}}
                     </div>
                 </div>
                 <div class="col-5 align-self-end">
@@ -84,7 +84,7 @@
         {{-- <p>Remember It ? <a href="{{ route('login') }}" class="fw-medium text-primary"> Sign In here</a> </p> --}}
         <p>© <script>
                 document.write(new Date().getFullYear())
-            </script> Lara Codes. Crafted with <i class="mdi mdi-heart text-danger"></i> by Lara Codes</p>
+            </script> Laravel Sample. Crafted with <i class="mdi mdi-heart text-danger"></i> by Laravel Sample</p>
     </div>
 
 </div>

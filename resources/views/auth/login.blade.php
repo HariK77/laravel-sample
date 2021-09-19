@@ -11,7 +11,7 @@
                 <div class="col-7">
                     <div class="text-primary p-4">
                         <h5 class="text-primary">Welcome Back !</h5>
-                        <p>Sign in to continue to Lara Codes.</p>
+                        <p>Sign in to continue to Laravel Sample.</p>
                     </div>
                 </div>
             </div>
@@ -104,7 +104,7 @@
 
         <div>
             <p>Don't have an account ? <a href="{{ route('register') }}" class="fw-medium text-primary"> Signup now </a> </p>
-            <p>© <script>document.write(new Date().getFullYear())</script> Lara Codes. Crafted with <i class="mdi mdi-heart text-danger"></i> by Lara Codes</p>
+            <p>© <script>document.write(new Date().getFullYear())</script> Laravel Sample. Crafted with <i class="mdi mdi-heart text-danger"></i> by Laravel Sample</p>
         </div>
     </div>
 

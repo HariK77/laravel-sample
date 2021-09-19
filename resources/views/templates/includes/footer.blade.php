@@ -4,11 +4,11 @@
             <div class="col-sm-6">
                 <script>
                     document.write(new Date().getFullYear())
-                </script> © Lara Codes.
+                </script> © Laravel Sample.
             </div>
             <div class="col-sm-6">
                 <div class="text-sm-end d-none d-sm-block">
-                    Design & Develop by Lara Codes
+                    Design & Develop by Laravel Sample
                 </div>
             </div>
         </div>
