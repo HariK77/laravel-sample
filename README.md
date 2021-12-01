@@ -9,3 +9,13 @@ This is a [Laravel](https://laravel.com) Application, in which I try to implemen
 - Implemented export and import of excel files using [Laravel Excel](https://laravel-excel.com/).
 - Implemented access management system with [Laravel Permission](https://spatie.be/docs/laravel-permission/v4/introduction)
 
+## Setup Instructions
+- Clone the repository using $ git clone https://github.com/HariK77/laravel-sample.git
+- run $ composer install
+- run $ sudo chmod -R 0777 storage/ 
+- create a .env file ($ cp .env.example .env)
+- configure db connections, create db.
+- run $ php artisan key:generate
+- run $ php artisan migrate
+- access it using localhost/laravel-sample/public
+
